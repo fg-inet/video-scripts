@@ -1,0 +1,2 @@
+numpy>=1.18.2
+jsonmerge>=1.7.0
