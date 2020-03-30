@@ -17,7 +17,7 @@ Extract the timestamps of the I-frame positions by using
 
     python getTimeStamps.py [input m3u8] [fps] [sub]
 
-Enable substraction of 1/4 frame by replacing `[sub]` with `true`. We use FFmpeg to extract the "best-effort-timestamps" of all I-frames that are at the beginning of a segment. Further, we utilize the fact if the timestamp of a forced key frame is not aligned with the frame duration, FFmpeg sets it to the next frame. Therefore, we subtract 1/4 frame duration to harden against possible rounding errors.
+Enable substraction of 1/4 frame duration by replacing `[sub]` with `true`. We use FFmpeg to extract the "best-effort-timestamps" of all I-frames that are at the beginning of a segment. To cope with floating point imprecision we subtract a small safety margin (1/4 frame duration). This ensures that the next frame after the adjusted timestamp is the frame which shall be encoded as I-frame. When using force key frame with this timestamp the next frame will be encoded as key frame.
 
 ## Generate VBR Job Files
 Add the extracted I-frame timelines to the dictionary `[Bunny/Elfuente/Meridia/TearsOfSteel]_t_sub` in [generateJobs.py](generateJobs.py#L43-L97). Ignore the dictionaries with the exact timestamps.
